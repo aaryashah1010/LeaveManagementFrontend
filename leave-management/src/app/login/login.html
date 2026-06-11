@@ -1,0 +1,90 @@
+<div class="split-layout">
+    <div class="brand-panel">
+        <div class="logo-container">
+            <div class="logo-icon"><mat-icon>business_center</mat-icon></div>
+            <div class="logo-text">
+                <span class="brand-name">LeaveSync</span>
+                <span class="brand-sub">Smart Leave Management</span>
+            </div>
+        </div>
+
+        <div class="hero-text">
+            <h1>Manage leaves<br><span class="highlight">intelligently.</span></h1>
+            <p>A unified platform for employees, managers, and HR to streamline leave workflows with real-time insights.
+            </p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-item">
+                <h2>98%</h2>
+                <p>Approval rate on-time</p>
+            </div>
+            <div class="stat-item">
+                <h2>12 min</h2>
+                <p>Avg. approval time</p>
+            </div>
+            <div class="stat-item">
+                <h2>5000+</h2>
+                <p>Active employees</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-panel">
+        <div class="login-card">
+            <div class="header">
+                <h2>Welcome back</h2>
+                <p>Sign in to your account</p>
+            </div>
+
+            <div class="role-selector">
+                <p class="section-label">Sign in as</p>
+                <div class="roles-grid">
+                    <div class="role-card" [class.active]="selectedRole === 'Employee'" (click)="setRole('Employee')">
+                        <mat-icon>person_outline</mat-icon>
+                        <span>Employee</span>
+                    </div>
+                    <div class="role-card" [class.active]="selectedRole === 'Manager'" (click)="setRole('Manager')">
+                        <mat-icon>people_outline</mat-icon>
+                        <span>Manager</span>
+                    </div>
+                    <div class="role-card" [class.active]="selectedRole === 'HR Admin'" (click)="setRole('HR Admin')">
+                        <mat-icon>shield_outline</mat-icon>
+                        <span>HR Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" formControlName="email" placeholder="name@company.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-input-wrapper">
+                        <input [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+                            placeholder="••••••••">
+                        <button type="button" class="icon-btn" (click)="togglePasswordVisibility()">
+                            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <label class="remember-me">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a [routerLink]="['/forgot-password']" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">
+                    Sign in as {{ selectedRole }} <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </form>
+
+            <p class="demo-text">Select your role and sign in.</p>
+        </div>
+    </div>
+</div>

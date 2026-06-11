@@ -1,0 +1,767 @@
+$bg-color: #F8FAFC;
+$sidebar-bg: #0F172A;
+$text-main: #1E293B;
+$text-muted: #64748B;
+$border-color: #E2E8F0;
+$primary: #3B82F6;
+
+.app-layout {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-color: $bg-color;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* --- Sidebar & Transitions --- */
+.sidebar {
+    position: relative;
+    width: 260px;
+    background-color: $sidebar-bg;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible;
+    /* Allows toggle to hang off the edge */
+    white-space: nowrap;
+
+    /* Default Padding (Open State) */
+    padding: 24px 16px;
+
+    /* The Toggle Button */
+    .sidebar-toggle {
+        position: absolute;
+        top: 32px;
+        right: -12px;
+        width: 24px;
+        height: 24px;
+        background: white;
+        border: 1px solid $border-color;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: $text-muted;
+        z-index: 50;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 0;
+
+        mat-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+        }
+
+        &:hover {
+            color: $primary;
+            border-color: $primary;
+        }
+    }
+
+    /* Base Elements */
+    .sidebar-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        padding-left: 8px;
+
+        .logo-icon {
+            background: $primary;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            mat-icon {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+
+            .title {
+                font-weight: 600;
+                font-size: 16px;
+            }
+
+            .subtitle {
+                font-size: 11px;
+                color: #94A3B8;
+            }
+        }
+    }
+
+    .role-badge {
+        background: rgba(59, 130, 246, 0.15);
+        color: #60A5FA;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+
+        mat-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+    }
+
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        overflow-x: hidden;
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #94A3B8;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+
+            mat-icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+                flex-shrink: 0;
+            }
+
+            .badge {
+                margin-left: auto;
+                background: #EF4444;
+                color: white;
+                padding: 2px 6px;
+                border-radius: 12px;
+                font-size: 11px;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.05);
+                color: white;
+            }
+
+            &.active {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+            }
+        }
+    }
+
+    .sidebar-footer {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 12px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        margin-top: auto;
+        overflow: hidden;
+
+        .user-avatar {
+            background: #2563EB;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            .name {
+                font-size: 13px;
+                font-weight: 500;
+            }
+
+            .emp-id {
+                font-size: 11px;
+                color: #94A3B8;
+            }
+        }
+
+        .logout-icon {
+            color: #94A3B8;
+            cursor: pointer;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+    }
+
+    /* ========================================================
+     COLLAPSED STATE (Overrides base elements when active)
+     ======================================================== */
+    &.collapsed {
+        width: 84px;
+        padding: 24px 12px;
+
+        /* 1. Brutally hide all text so it doesn't bleed */
+        .brand-text,
+        .role-badge,
+        .nav-text,
+        .badge,
+        .user-info,
+        .logout-icon {
+            display: none !important;
+        }
+
+        /* 2. Center the main logo */
+        .sidebar-brand {
+            padding: 0;
+            margin-bottom: 32px;
+            justify-content: center;
+        }
+
+        /* 3. Center the Nav Icons & Style Active State */
+        .nav-menu {
+            .nav-item {
+                justify-content: center;
+                padding: 12px 0;
+                width: 44px;
+                margin: 0 auto 8px auto;
+                /* Perfect centering */
+                border-radius: 12px;
+
+                /* Figma specific active square */
+                &.active {
+                    background: #1E293B;
+                    color: #60A5FA;
+                }
+            }
+        }
+
+        /* 4. Center the Avatar and remove its background box */
+        .sidebar-footer {
+            padding: 8px;
+            width: 48px;
+            margin: auto auto 16px auto;
+            background: transparent;
+            justify-content: center;
+        }
+    }
+}
+
+/* Ensure .main-content class comes immediately after this in your file */
+
+/* --- Main Content --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.top-header {
+    height: 72px;
+    background: white;
+    border-bottom: 1px solid $border-color;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    flex-shrink: 0;
+
+    .page-title h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: $text-main;
+    }
+
+    .page-title .date-subtitle {
+        margin: 0;
+        font-size: 12px;
+        color: $text-muted;
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        .icon-btn {
+            background: #F1F5F9;
+            border: none;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $text-muted;
+            position: relative;
+            cursor: pointer;
+
+            .dot {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                width: 6px;
+                height: 6px;
+                background: #EF4444;
+                border-radius: 50%;
+            }
+        }
+
+        .profile-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F1F5F9;
+            padding: 4px 12px 4px 4px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+
+            .avatar-small {
+                background: #2563EB;
+                color: white;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+            }
+        }
+    }
+}
+
+.dashboard-scroll {
+    padding: 32px;
+    overflow-y: auto;
+    height: calc(100vh - 72px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Cards & Layout */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid $border-color;
+}
+
+.card-title {
+    margin: 0 0 20px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: $text-main;
+}
+
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .card-title {
+        margin: 0;
+    }
+
+    .view-all {
+        font-size: 13px;
+        color: $primary;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .year-badge {
+        background: #F1F5F9;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        color: $text-muted;
+    }
+}
+
+/* Banner */
+.hero-banner {
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    .banner-text h2 {
+        margin: 0 0 8px 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .banner-text p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    }
+}
+
+/* Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid $border-color;
+
+    .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            mat-icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .icon.blue {
+            background: #EFF6FF;
+            color: #3B82F6;
+        }
+
+        .icon.orange {
+            background: #FFF7ED;
+            color: #F97316;
+        }
+
+        .icon.green {
+            background: #ECFDF5;
+            color: #10B981;
+        }
+
+        .icon.purple {
+            background: #F5F3FF;
+            color: #8B5CF6;
+        }
+
+        .trend {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .trend.up {
+            background: #DCFCE7;
+            color: #16A34A;
+        }
+    }
+
+    .stat-label {
+        margin: 0 0 4px 0;
+        font-size: 13px;
+        color: $text-muted;
+    }
+
+    h3 {
+        margin: 0 0 4px 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: $text-main;
+    }
+
+    .stat-sub {
+        margin: 0;
+        font-size: 12px;
+        color: #94A3B8;
+    }
+}
+
+/* Progress Bars & Placeholders */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 24px;
+}
+
+.progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.progress-item .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 500;
+    color: $text-main;
+    margin-bottom: 8px;
+}
+
+.progress-item .progress-track {
+    background: #F1F5F9;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-item .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.chart-placeholder.doughnut {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    .css-doughnut {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 20px solid #E2E8F0;
+        border-top-color: #10B981;
+        border-right-color: #3B82F6;
+        border-bottom-color: #8B5CF6;
+        border-left-color: #F59E0B;
+    }
+
+    .legend {
+        display: flex;
+        gap: 12px;
+        font-size: 11px;
+        font-weight: 500;
+        color: $text-muted;
+    }
+}
+
+.chart-placeholder.bar-chart {
+    height: 250px;
+    border-bottom: 1px dashed $border-color;
+    position: relative;
+    padding-top: 20px;
+
+    .bar-grid {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+        height: 100%;
+        padding: 0 20px;
+
+        .bar {
+            width: 12px;
+            background: #F59E0B;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+
+            span {
+                position: absolute;
+                bottom: -25px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 12px;
+                color: $text-muted;
+            }
+        }
+    }
+}
+
+/* Bottom Grid */
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.request-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F1F5F9;
+
+    &:last-child {
+        border: none;
+        padding: 0;
+    }
+
+    .req-icon {
+        background: #F8FAFC;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid $border-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $primary;
+    }
+
+    .req-details {
+        flex: 1;
+
+        h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: $text-main;
+        }
+
+        p {
+            margin: 0;
+            font-size: 12px;
+            color: $text-muted;
+        }
+    }
+
+    .status-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        &.approved {
+            background: #ECFDF5;
+            color: #16A34A;
+
+            .dot {
+                background: #16A34A;
+            }
+        }
+
+        &.pending {
+            background: #FFF7ED;
+            color: #F97316;
+
+            .dot {
+                background: #F97316;
+            }
+        }
+    }
+}
+
+.insights-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.insight-card {
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid;
+
+    .insight-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+
+        mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    p {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.5;
+        opacity: 0.9;
+    }
+
+    &.yellow {
+        background: #FEFCE8;
+        border-color: #FEF08A;
+        color: #854D0E;
+    }
+
+    &.red {
+        background: #FEF2F2;
+        border-color: #FECACA;
+        color: #991B1B;
+    }
+}
