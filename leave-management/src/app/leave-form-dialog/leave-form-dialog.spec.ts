@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LeaveFormDialog } from './leave-form-dialog';
+import { LeaveFormDialogComponent } from './leave-form-dialog';
 
-describe('LeaveFormDialog', () => {
-  let component: LeaveFormDialog;
-  let fixture: ComponentFixture<LeaveFormDialog>;
+describe('LeaveFormDialogComponent', () => {
+  let component: LeaveFormDialogComponent;
+  let fixture: ComponentFixture<LeaveFormDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LeaveFormDialog],
+      imports: [LeaveFormDialogComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LeaveFormDialog);
+    fixture = TestBed.createComponent(LeaveFormDialogComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
