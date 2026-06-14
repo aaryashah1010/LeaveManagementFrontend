@@ -7,12 +7,16 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { take } from 'rxjs';
 
+// Import the environment configuration
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-reset-password',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule, MatIconModule, RouterModule],
   templateUrl: './reset-password.html',
   styleUrls: ['./reset-password.scss']
+}) // <--- ADDED THE MISSING CLOSING BRACKET HERE
 export class ResetPasswordComponent implements OnInit {
   resetForm: FormGroup;
   token: string | null = null;
@@ -56,7 +60,8 @@ export class ResetPasswordComponent implements OnInit {
         newPassword: this.resetForm.get('newPassword')?.value
       };
 
-      this.http.post('http://localhost:3000/api/auth/reset-password', payload)
+      // Updated to use the environment URL instead of localhost
+      this.http.post(`${environment.apiUrl}/auth/reset-password`, payload)
         .subscribe({
           next: () => {
             this.snackBar.open('Password reset successfully! You can now log in.', 'Close', { duration: 5000 });

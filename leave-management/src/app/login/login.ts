@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -46,7 +48,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.http.post('http://localhost:3000/api/auth/login', this.loginForm.value)
+      this.http.post(`${environment.apiUrl}/auth/login`, this.loginForm.value)
         .subscribe({
           next: (response: any) => {
             localStorage.setItem('token', response.token);

@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { LeaveFormDialogComponent } from '../leave-form-dialog/leave-form-dialog';
 import { SessionTimeoutService } from '../services/session-timeout.service';
 
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
@@ -68,7 +70,8 @@ export class EmployeeDashboardComponent implements OnInit, OnDestroy {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get('http://localhost:3000/api/leaves/history', { headers })
+    // 2. Updated URL
+    this.http.get(`${environment.apiUrl}/leaves/history`, { headers })
       .subscribe({
         next: (data: any) => {
           this.recentRequests = data.map((dbRow: any) => ({
@@ -102,7 +105,8 @@ export class EmployeeDashboardComponent implements OnInit, OnDestroy {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.post('http://localhost:3000/api/auth/logout', {}, { headers })
+    // 3. Updated URL
+    this.http.post(`${environment.apiUrl}/auth/logout`, {}, { headers })
       .subscribe({
         next: () => {
           localStorage.removeItem('token');
@@ -124,7 +128,8 @@ export class EmployeeDashboardComponent implements OnInit, OnDestroy {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.post('http://localhost:3000/api/leaves/apply', formData, { headers })
+    // 4. Updated URL
+    this.http.post(`${environment.apiUrl}/leaves/apply`, formData, { headers })
       .subscribe({
         next: (response: any) => {
           this.snackBar.open('Leave application submitted successfully!', 'Close', {
