@@ -1,0 +1,65 @@
+<div class="form-page-wrapper">
+    <div class="form-card">
+
+        <div class="dialog-header">
+            <h2>New Leave Application</h2>
+            <p>Fill in the details below to submit your leave request</p>
+        </div>
+
+        <hr class="divider">
+
+        <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()" class="form-content">
+
+            <div class="form-group">
+                <label>Leave Type <span class="required">*</span></label>
+                <select formControlName="leaveType" class="form-control"
+                    [class.placeholder-text]="leaveForm.get('leaveType')?.value === ''">
+                    <option value="" disabled>Select leave type</option>
+                    <option *ngFor="let type of leaveTypes" [value]="type">{{type}}</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Start Date <span class="required">*</span></label>
+                    <input type="date" formControlName="startDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>End Date <span class="required">*</span></label>
+                    <input type="date" formControlName="endDate" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" formControlName="halfDay" id="halfDay">
+                <label for="halfDay">Half Day</label>
+            </div>
+
+            <div class="form-group">
+                <label>Reason <span class="required">*</span></label>
+                <textarea formControlName="reason" class="form-control" rows="3"
+                    placeholder="Briefly describe the reason for your leave..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Emergency Contact <span class="optional">(optional)</span></label>
+                <input type="text" formControlName="emergencyContact" class="form-control"
+                    placeholder="+91 XXXXX XXXXX">
+            </div>
+
+            <div class="form-group">
+                <label>Supporting Document <span class="optional">(optional)</span></label>
+                <div class="file-upload-zone">
+                    <mat-icon>file_upload</mat-icon>
+                    <p>Click to upload PDF or image</p>
+                </div>
+            </div>
+
+            <div class="dialog-actions">
+                <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn-submit" [disabled]="leaveForm.invalid">Submit Request</button>
+            </div>
+
+        </form>
+    </div>
+</div>

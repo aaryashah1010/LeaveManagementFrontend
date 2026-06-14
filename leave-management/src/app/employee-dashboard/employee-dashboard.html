@@ -1,0 +1,205 @@
+<div class="app-layout">
+
+    <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+        <button class="sidebar-toggle" (click)="toggleSidebar()">
+            <mat-icon>{{ isSidebarCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+        </button>
+
+        <div class="sidebar-brand">
+            <div class="logo-icon"><mat-icon>business_center</mat-icon></div>
+            <div class="brand-text">
+                <span class="title">LeaveSync</span>
+                <span class="subtitle">by AcmeCorp</span>
+            </div>
+        </div>
+
+        <div class="role-badge">
+            <mat-icon>person_outline</mat-icon> <span class="badge-text">Employee</span>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item" [class.active]="currentView === 'dashboard'" (click)="currentView = 'dashboard'; $event.preventDefault()">
+                <mat-icon>grid_view</mat-icon> <span class="nav-text">Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" [class.active]="currentView === 'apply-leave'" (click)="openLeaveForm(); $event.preventDefault()">
+                <mat-icon>post_add</mat-icon> <span class="nav-text">Apply Leave</span>
+            </a>
+            <a href="#" class="nav-item"><mat-icon>history</mat-icon> <span class="nav-text">Leave History</span></a>
+            <a href="#" class="nav-item"><mat-icon>calendar_today</mat-icon> <span class="nav-text">Calendar</span></a>
+            <a href="#" class="nav-item">
+                <mat-icon>notifications_none</mat-icon> <span class="nav-text">Notifications</span>
+                <span class="badge">2</span>
+            </a>
+            <a href="#" class="nav-item"><mat-icon>person_outline</mat-icon> <span class="nav-text">Profile</span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-avatar">KS</div>
+            <div class="user-info">
+                <span class="name">{{ userName }}</span>
+                <span class="emp-id">EMP-1042</span>
+            </div>
+            <mat-icon class="logout-icon" (click)="logout()" title="Logout">logout</mat-icon>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <div class="page-title">
+                <h1>{{ currentView === 'dashboard' ? 'Dashboard' : 'Apply Leave' }}</h1>
+                <p class="date-subtitle">{{ currentDate | date:'EEEE, dd MMMM yyyy' }}</p>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn"><mat-icon>notifications_none</mat-icon><span class="dot"></span></button>
+                <div class="profile-dropdown">
+                    <div class="avatar-small">KS</div>
+                    <span>{{ userName }}</span>
+                    <mat-icon>expand_more</mat-icon>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-scroll">
+
+            <div *ngIf="currentView === 'dashboard'" class="dashboard-content-wrapper">
+                
+                <div class="hero-banner">
+                    <div class="banner-text">
+                        <h2>Good morning, {{ userName }}! 👋</h2>
+                        <p>You have 1 pending request awaiting approval.</p>
+                    </div>
+                    <button class="btn-primary" (click)="openLeaveForm()">
+                        <mat-icon>add</mat-icon> Apply Leave
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="icon blue"><mat-icon>calendar_today</mat-icon></div>
+                            <span class="trend up">↑ YTD</span>
+                        </div>
+                        <p class="stat-label">Total Balance</p>
+                        <h3>38</h3>
+                        <p class="stat-sub">Days remaining</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="icon orange"><mat-icon>schedule</mat-icon></div>
+                        </div>
+                        <p class="stat-label">Used This Year</p>
+                        <h3>13</h3>
+                        <p class="stat-sub">Across all types</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="icon green"><mat-icon>check_circle_outline</mat-icon></div>
+                        </div>
+                        <p class="stat-label">Approved</p>
+                        <h3>2</h3>
+                        <p class="stat-sub">Requests this year</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="icon purple"><mat-icon>cancel_presentation</mat-icon></div>
+                        </div>
+                        <p class="stat-label">Pending</p>
+                        <h3>1</h3>
+                        <p class="stat-sub">Awaiting approval</p>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="card">
+                        <h3 class="card-title">Leave Balances</h3>
+                        <div class="progress-list">
+                            <div class="progress-item" *ngFor="let leave of leaveBalances">
+                                <div class="progress-labels">
+                                    <span>{{ leave.name }}</span>
+                                    <span>{{ leave.used }}/{{ leave.total }}</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill" [style.width.%]="(leave.used / leave.total) * 100"
+                                        [style.background-color]="leave.color"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder doughnut">
+                            <div class="css-doughnut"></div>
+                            <div class="legend">
+                                <span style="color: #3B82F6">● Casual</span>
+                                <span style="color: #10B981">● Sick</span>
+                                <span style="color: #F59E0B">● Earned</span>
+                                <span style="color: #8B5CF6">● WFH</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3 class="card-title">Monthly Leave Usage</h3>
+                            <span class="year-badge">↗ 2024</span>
+                        </div>
+                        <div class="chart-placeholder bar-chart">
+                            <div class="bar-grid">
+                                <div class="bar" style="height: 60%;"><span>Jan</span></div>
+                                <div class="bar" style="height: 40%;"><span>Feb</span></div>
+                                <div class="bar" style="height: 75%;"><span>Mar</span></div>
+                                <div class="bar" style="height: 50%;"><span>Apr</span></div>
+                                <div class="bar" style="height: 90%;"><span>May</span></div>
+                                <div class="bar" style="height: 65%;"><span>Jun</span></div>
+                                <div class="bar" style="height: 100%;"><span>Jul</span></div>
+                                <div class="bar" style="height: 80%;"><span>Aug</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-grid">
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3 class="card-title">Recent Requests</h3>
+                            <a href="#" class="view-all">View all →</a>
+                        </div>
+                        <div class="request-list">
+                            <div class="request-item" *ngFor="let req of recentRequests">
+                                <div class="req-icon"><mat-icon>calendar_today</mat-icon></div>
+                                <div class="req-details">
+                                    <h4>{{ req.type }}</h4>
+                                    <p>{{ req.dateRange }} · {{ req.days }}</p>
+                                </div>
+                                <span class="status-badge {{ req.statusClass }}">
+                                    <span class="dot"></span> {{ req.status }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insights-col">
+                        <div class="insight-card yellow">
+                            <div class="insight-header"><mat-icon>auto_awesome</mat-icon> AI Insight</div>
+                            <p>You've been consistent with leave patterns. Optimal time to take Earned Leave: August 19-23.
+                            </p>
+                        </div>
+                        <div class="insight-card red">
+                            <div class="insight-header"><mat-icon>warning_amber</mat-icon> Low Balance</div>
+                            <p>Sick Leave balance is at 2 days. Consider planning appointments ahead.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <app-leave-form-dialog 
+                *ngIf="currentView === 'apply-leave'" 
+                (cancel)="cancelLeaveForm()" 
+                (submitForm)="submitLeaveRequest($event)">
+            </app-leave-form-dialog>
+
+        </div>
+    </main>
+</div>
