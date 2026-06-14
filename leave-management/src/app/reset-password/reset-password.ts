@@ -32,7 +32,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.pipe(take(1)).subscribe(params => {
       this.token = params['token'];
       if (!this.token) {
         this.snackBar.open('Invalid or missing reset token', 'Close', { duration: 4000 });
