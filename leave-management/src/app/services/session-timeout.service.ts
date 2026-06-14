@@ -47,8 +47,8 @@ export class SessionTimeoutService {
   endSession() {
     clearTimeout(this.timeoutHandle);
     clearTimeout(this.warningHandle);
-    document.removeEventListener('mousemove', () => {});
-    document.removeEventListener('keydown', () => {});
-    document.removeEventListener('click', () => {});
+    document.removeEventListener('mousemove', this.onActivity);
+    document.removeEventListener('keydown', this.onActivity);
+    document.removeEventListener('click', this.onActivity);
   }
 }
