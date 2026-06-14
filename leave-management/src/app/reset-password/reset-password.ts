@@ -11,8 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule, MatIconModule, RouterModule],
   templateUrl: './reset-password.html',
-  styleUrls: ['./reset-password.scss'] // Reusing the identical SCSS from forgot-password
-})
+  styleUrls: ['./reset-password.scss']
 export class ResetPasswordComponent implements OnInit {
   resetForm: FormGroup;
   token: string | null = null;
