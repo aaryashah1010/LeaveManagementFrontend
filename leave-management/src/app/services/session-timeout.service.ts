@@ -11,15 +11,16 @@ export class SessionTimeoutService {
   
   private timeoutHandle: any;
   private warningHandle: any;
+  private readonly onActivity = () => this.resetInactivityTimer();
   sessionWarning$ = new BehaviorSubject<boolean>(false);
 
   constructor(private router: Router) {}
 
   startSession() {
     this.resetInactivityTimer();
-    document.addEventListener('mousemove', () => this.resetInactivityTimer());
-    document.addEventListener('keydown', () => this.resetInactivityTimer());
-    document.addEventListener('click', () => this.resetInactivityTimer());
+    document.addEventListener('mousemove', this.onActivity);
+    document.addEventListener('keydown', this.onActivity);
+    document.addEventListener('click', this.onActivity);
   }
 
   resetInactivityTimer() {
