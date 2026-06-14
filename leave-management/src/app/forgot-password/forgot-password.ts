@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 
+// 1. Import the environment configuration
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
@@ -33,7 +36,8 @@ export class ForgotPasswordComponent {
 
     this.isSubmitting = true;
 
-    this.http.post('http://localhost:3000/api/auth/forgot-password', this.forgotForm.value)
+    // 2. Use the environment URL instead of localhost
+    this.http.post(`${environment.apiUrl}/auth/forgot-password`, this.forgotForm.value)
       .subscribe({
         next: () => {
           // Push UI updates to the next event tick to avoid lightning-fast local response collisions
