@@ -14,7 +14,7 @@
                 <label>Leave Type <span class="required">*</span></label>
                 <select formControlName="leaveType" class="form-control"
                     [class.placeholder-text]="leaveForm.get('leaveType')?.value === ''">
-                    <option value="" disabled selected>Select leave type</option>
+                    <option value="" disabled>Select leave type</option>
                     <option *ngFor="let type of leaveTypes" [value]="type">{{type}}</option>
                 </select>
             </div>
