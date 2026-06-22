@@ -53,7 +53,11 @@ export class LoginComponent {
           next: (response: any) => {
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
-            this.router.navigate(['/dashboard']);
+            if (response.user.role === 'Manager') {
+              this.router.navigate(['/manager-dashboard']);
+            } else {
+              this.router.navigate(['/dashboard']);
+            }
           },
           error: (err) => {
             console.error('Login failed', err);

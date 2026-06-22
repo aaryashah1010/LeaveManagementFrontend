@@ -1,0 +1,94 @@
+<div class="page-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-titles">
+            <h2>Pending Approvals</h2>
+            <p>{{requests.length}} requests awaiting your decision</p>
+        </div>
+        <div class="ai-active-badge">
+            <mat-icon>auto_awesome</mat-icon>
+            <span>AI recommendations active</span>
+        </div>
+    </div>
+
+    <!-- Requests List -->
+    <div class="requests-container">
+        <div class="request-card" *ngFor="let req of requests">
+
+            <!-- Card Header -->
+            <div class="card-header">
+                <div class="employee-info">
+                    <div class="avatar">{{ req.initials }}</div>
+                    <div class="name-dept">
+                        <h3>{{ req.name }}</h3>
+                        <p>{{ req.department }}</p>
+                    </div>
+                </div>
+                <div class="status-badge pending">
+                    <span class="dot"></span> Pending
+                </div>
+            </div>
+
+            <!-- Card Details Grid -->
+            <div class="details-grid">
+                <div class="detail-item">
+                    <label>LEAVE TYPE</label>
+                    <p>{{ req.leaveType }}</p>
+                </div>
+                <div class="detail-item">
+                    <label>DURATION</label>
+                    <p>{{ req.startDate }} &rarr; {{ req.endDate }}</p>
+                </div>
+                <div class="detail-item">
+                    <label>DAYS</label>
+                    <p>{{ req.days }}</p>
+                </div>
+                <div class="detail-item">
+                    <label>APPLIED</label>
+                    <p>{{ req.appliedDate }}</p>
+                </div>
+            </div>
+
+            <!-- Reason Box -->
+            <div class="reason-box">
+                <label>REASON</label>
+                <p>{{ req.reason }}</p>
+            </div>
+
+            <!-- AI Recommendation Banner (Optional) -->
+            <div class="ai-banner" *ngIf="req.aiRecommendation" [ngClass]="req.aiRecommendation.status.toLowerCase()">
+                <mat-icon>auto_awesome</mat-icon>
+                <strong>AI: {{ req.aiRecommendation.status }}</strong>
+                <span>{{ req.aiRecommendation.message }}</span>
+            </div>
+
+            <!-- Card Footer Actions -->
+            <div class="comment-section" *ngIf="req.showCommentBox">
+                <textarea class="comment-input" placeholder="Add a comment (optional)..."></textarea>
+            </div>
+
+            <div class="card-footer">
+                <div class="action-buttons">
+                    <button class="btn-approve" (click)="approveLeave(req.id)">
+                        <mat-icon>check_circle_outline</mat-icon> Approve
+                    </button>
+
+                    <button class="btn-reject"
+                        (click)="req.showCommentBox ? rejectLeave(req, req.managerComment || '') : toggleComment(req)">
+                        <mat-icon>highlight_off</mat-icon> Reject
+                    </button>
+
+                    <button class="btn-comment" (click)="toggleComment(req)" [class.active]="req.showCommentBox">
+                        <mat-icon>chat_bubble_outline</mat-icon> Comment
+                        <mat-icon class="dropdown-icon">{{ req.showCommentBox ? 'expand_less' : 'expand_more'
+                            }}</mat-icon>
+                    </button>
+                </div>
+                <div class="waiting-time">
+                    <mat-icon>schedule</mat-icon> Waiting {{ req.waitingDays }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

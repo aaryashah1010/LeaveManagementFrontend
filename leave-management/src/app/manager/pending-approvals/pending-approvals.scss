@@ -1,0 +1,330 @@
+.page-container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+    padding-bottom: 40px;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #111827;
+        margin: 0 0 4px 0;
+    }
+
+    p {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 0;
+    }
+}
+
+.ai-active-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #f0f4ff;
+    color: #4f46e5;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #e0e7ff;
+    font-size: 13px;
+    font-weight: 500;
+
+    mat-icon {
+        font-size: 16px;
+        height: 16px;
+        width: 16px;
+    }
+}
+
+.requests-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+
+}
+
+.request-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .employee-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .name-dept {
+            h3 {
+                margin: 0;
+                font-size: 15px;
+                font-weight: 600;
+                color: #1f2937;
+            }
+
+            p {
+                margin: 2px 0 0 0;
+                font-size: 13px;
+                color: #6b7280;
+            }
+        }
+    }
+
+    .status-badge.pending {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background-color: #fef3c7;
+        color: #b45309;
+        padding: 4px 10px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: #f59e0b;
+            border-radius: 50%;
+        }
+    }
+}
+
+.comment-section {
+    margin-bottom: 16px;
+    animation: slideDown 0.2s ease-out;
+
+    .comment-input {
+        width: 100%;
+        min-height: 64px;
+        padding: 12px 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        background-color: #ffffff;
+        font-family: inherit;
+        font-size: 13px;
+        color: #1f2937;
+        resize: vertical;
+        /* Allows manager to drag the box taller if needed */
+        box-sizing: border-box;
+
+        &::placeholder {
+            color: #9ca3af;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+        }
+    }
+}
+
+.btn-comment.active {
+    background-color: #f3f4f6 !important;
+    border-color: #d1d5db !important;
+    color: #4b5563 !important;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    .detail-item {
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #9ca3af;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            color: #1f2937;
+            font-weight: 500;
+        }
+    }
+}
+
+.reason-box {
+    background-color: #f3f4f6;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+
+    label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        color: #9ca3af;
+        margin-bottom: 4px;
+        letter-spacing: 0.5px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 14px;
+        color: #374151;
+    }
+}
+
+.ai-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 13px;
+
+    mat-icon {
+        font-size: 16px;
+        height: 16px;
+        width: 16px;
+    }
+
+    strong {
+        font-weight: 700;
+    }
+
+    &.approve {
+        background-color: #dcfce7;
+        color: #16a34a;
+        border: 1px solid #bbf7d0;
+    }
+
+    &.review {
+        background-color: #fef08a;
+        color: #ca8a04;
+        border: 1px solid #fde047;
+    }
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 16px;
+
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            transition: all 0.2s;
+
+            mat-icon {
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+            }
+
+            &.btn-approve {
+                color: #22c55e;
+                border: 1px solid #bbf7d0;
+                background-color: #f0fdf4;
+
+                &:hover {
+                    background-color: #dcfce7;
+                }
+            }
+
+            &.btn-reject {
+                color: #ef4444;
+                border: 1px solid #fecaca;
+                background-color: #fef2f2;
+
+                &:hover {
+                    background-color: #fee2e2;
+                }
+            }
+
+            &.btn-comment {
+                color: #6b7280;
+                border: 1px solid #e5e7eb;
+                background-color: #f9fafb;
+
+                &:hover {
+                    background-color: #f3f4f6;
+                }
+
+                .dropdown-icon {
+                    font-size: 18px;
+                    margin-left: -4px;
+                }
+            }
+        }
+    }
+
+    .waiting-time {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: #9ca3af;
+
+        mat-icon {
+            font-size: 14px;
+            height: 14px;
+            width: 14px;
+        }
+    }
+}

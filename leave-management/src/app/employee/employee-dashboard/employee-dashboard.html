@@ -48,6 +48,7 @@
         <header class="top-header">
             <div class="page-title">
                 <h1>{{ currentView === 'dashboard' ? 'Dashboard' : 'Apply Leave' }}</h1>
+                <!-- REVERTED: Kept the date exactly as it was before -->
                 <p class="date-subtitle">{{ currentDate | date:'EEEE, dd MMMM yyyy' }}</p>
             </div>
             <div class="header-actions">
@@ -62,12 +63,12 @@
 
         <div class="dashboard-scroll">
 
-            <div *ngIf="currentView === 'dashboard'" class="dashboard-content-wrapper">
+            <ng-container *ngIf="currentView === 'dashboard'">
                 
                 <div class="hero-banner">
                     <div class="banner-text">
                         <h2>Good morning, {{ userName }}! 👋</h2>
-                        <p>You have 1 pending request awaiting approval.</p>
+                        <p>Track your leave balances and recent requests below.</p>
                     </div>
                     <button class="btn-primary" (click)="openLeaveForm()">
                         <mat-icon>add</mat-icon> Apply Leave
@@ -81,7 +82,7 @@
                             <span class="trend up">↑ YTD</span>
                         </div>
                         <p class="stat-label">Total Balance</p>
-                        <h3>38</h3>
+                        <h3>{{ dashboardStats.totalBalance }}</h3>
                         <p class="stat-sub">Days remaining</p>
                     </div>
 
@@ -90,7 +91,7 @@
                             <div class="icon orange"><mat-icon>schedule</mat-icon></div>
                         </div>
                         <p class="stat-label">Used This Year</p>
-                        <h3>13</h3>
+                        <h3>{{ dashboardStats.usedThisYear }}</h3>
                         <p class="stat-sub">Across all types</p>
                     </div>
 
@@ -99,7 +100,7 @@
                             <div class="icon green"><mat-icon>check_circle_outline</mat-icon></div>
                         </div>
                         <p class="stat-label">Approved</p>
-                        <h3>2</h3>
+                        <h3>{{ dashboardStats.approvedRequests }}</h3>
                         <p class="stat-sub">Requests this year</p>
                     </div>
 
@@ -108,7 +109,7 @@
                             <div class="icon purple"><mat-icon>cancel_presentation</mat-icon></div>
                         </div>
                         <p class="stat-label">Pending</p>
-                        <h3>1</h3>
+                        <h3>{{ dashboardStats.pendingRequestsCount }}</h3>
                         <p class="stat-sub">Awaiting approval</p>
                     </div>
                 </div>
@@ -142,7 +143,7 @@
                     <div class="card">
                         <div class="card-header-flex">
                             <h3 class="card-title">Monthly Leave Usage</h3>
-                            <span class="year-badge">↗ 2024</span>
+                            <span class="year-badge">↗ 2026</span>
                         </div>
                         <div class="chart-placeholder bar-chart">
                             <div class="bar-grid">
@@ -166,11 +167,19 @@
                             <a href="#" class="view-all">View all →</a>
                         </div>
                         <div class="request-list">
+                            <div *ngIf="recentRequests.length === 0" style="color: #64748B; font-size: 13px;">
+                                No recent leave requests found.
+                            </div>
+
                             <div class="request-item" *ngFor="let req of recentRequests">
                                 <div class="req-icon"><mat-icon>calendar_today</mat-icon></div>
                                 <div class="req-details">
                                     <h4>{{ req.type }}</h4>
                                     <p>{{ req.dateRange }} · {{ req.days }}</p>
+                                    
+                                    <p *ngIf="req.status === 'Rejected' && req.managerComment" style="color: #DC2626; margin-top: 4px; font-weight: 500;">
+                                        Note: {{ req.managerComment }}
+                                    </p>
                                 </div>
                                 <span class="status-badge {{ req.statusClass }}">
                                     <span class="dot"></span> {{ req.status }}
@@ -192,7 +201,7 @@
                     </div>
                 </div>
 
-            </div>
+            </ng-container>
 
             <app-leave-form-dialog 
                 *ngIf="currentView === 'apply-leave'" 
