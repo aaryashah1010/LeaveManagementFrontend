@@ -717,6 +717,14 @@ $primary: #3B82F6;
                 background: #F97316;
             }
         }
+        &.rejected {
+            background: #FEF2F2;
+            color: #DC2626;
+
+            .dot {
+                background: #DC2626;
+            }
+        }
     }
 }
 

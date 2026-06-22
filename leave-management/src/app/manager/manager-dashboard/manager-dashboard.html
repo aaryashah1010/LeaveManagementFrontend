@@ -1,0 +1,197 @@
+<div class="app-layout">
+    <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+        <button class="sidebar-toggle" (click)="toggleSidebar()">
+            <mat-icon>{{ isSidebarCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+        </button>
+
+        <div class="sidebar-brand">
+            <div class="logo-icon"><mat-icon>business_center</mat-icon></div>
+            <div class="brand-text">
+                <span class="title">LeaveSync</span>
+                <span class="subtitle">by AcmeCorp</span>
+            </div>
+        </div>
+
+        <div class="role-badge manager-badge">
+            <mat-icon>person</mat-icon> <span class="badge-text">Manager</span>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item" [class.active]="currentView === 'dashboard'"
+                (click)="currentView = 'dashboard'; $event.preventDefault()">
+                <mat-icon>grid_view</mat-icon> <span class="nav-text">Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" [class.active]="currentView === 'pending-approvals'"
+                (click)="currentView = 'pending-approvals'; $event.preventDefault()">
+                <mat-icon>check_box</mat-icon> <span class="nav-text">Pending Approvals</span>
+            </a>
+            <a href="#" class="nav-item"><mat-icon>calendar_today</mat-icon> <span class="nav-text">Team
+                    Calendar</span></a>
+            <a href="#" class="nav-item"><mat-icon>bar_chart</mat-icon> <span class="nav-text">Team Analytics</span></a>
+            <a href="#" class="nav-item">
+                <mat-icon>notifications_none</mat-icon> <span class="nav-text">Notifications</span>
+                <span class="badge">2</span>
+            </a>
+            <a href="#" class="nav-item"><mat-icon>person_outline</mat-icon> <span class="nav-text">Profile</span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-avatar manager-avatar">{{ initials }}</div>
+            <div class="user-info">
+                <span class="name">{{ fullName }}</span>
+                <span class="emp-id">{{ empId }}</span>
+            </div>
+            <mat-icon class="logout-icon" (click)="logout()" title="Logout">logout</mat-icon>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="page-title">
+                <h1 *ngIf="currentView === 'dashboard'">Dashboard</h1>
+                <h1 *ngIf="currentView === 'pending-approvals'">Pending Approvals</h1>
+                <p class="date-subtitle">{{ currentDate | date:'EEEE, dd MMMM yyyy' }}</p>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn"><mat-icon>notifications_none</mat-icon><span class="dot"></span></button>
+                <div class="profile-dropdown">
+                    <div class="avatar-small manager-avatar">{{ initials }}</div>
+                    <span>{{ userName }}</span>
+                    <mat-icon>expand_more</mat-icon>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-scroll">
+
+            <ng-container *ngIf="currentView === 'dashboard'">
+
+                <div class="hero-banner manager-banner">
+                    <div class="banner-text">
+                        <h2>Good morning, {{ userName }}! 👋</h2>
+                        <p>You have <strong>4 leave requests</strong> waiting for your decision today.</p>
+                    </div>
+                    <button class="btn-review" (click)="currentView = 'pending-approvals'">
+                        Review Now <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card" style="cursor:pointer;" (click)="currentView = 'pending-approvals'">
+                        <div class="icon-box purple"><mat-icon>check_box</mat-icon></div>
+                        <div class="stat-content">
+                            <p class="stat-label">Pending Approvals</p>
+                            <h3>{{ dashboardStats.pendingApprovals }}</h3>
+                            <p class="stat-sub">Need your action</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon-box blue"><mat-icon>people_outline</mat-icon></div>
+                        <div class="stat-content">
+                            <p class="stat-label">Team Members</p>
+                            <h3>{{ dashboardStats.teamMembers }}</h3>
+                            <p class="stat-sub">Direct reports</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon-box orange"><mat-icon>schedule</mat-icon></div>
+                        <div class="stat-content">
+                            <p class="stat-label">On Leave Today</p>
+                            <h3>{{ dashboardStats.onLeaveToday }}</h3>
+                            <p class="stat-sub">of {{ dashboardStats.teamMembers }} members</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon-box green"><mat-icon>trending_up</mat-icon></div>
+                        <div class="stat-content">
+                            <p class="stat-label">Approved This Month</p>
+                            <h3>{{ dashboardStats.approvedThisMonth }}</h3>
+                            <p class="stat-sub">Requests processed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card pending-card">
+                        <div class="card-header-flex">
+                            <h3 class="card-title">Pending Requests</h3>
+                            <a href="#" class="view-all"
+                                (click)="currentView = 'pending-approvals'; $event.preventDefault()">View all &rarr;</a>
+                        </div>
+
+                        <div class="request-list">
+                            <div class="request-item" *ngFor="let req of pendingRequests">
+                                <div class="req-avatar">{{ req.initials }}</div>
+                                <div class="req-details">
+                                    <h4>{{ req.name }}</h4>
+                                    <p>{{ req.details }}</p>
+                                </div>
+                                <span class="status-pill pending">
+                                    <span class="dot"></span> {{ req.status }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="right-col">
+
+                        <div class="card chart-card">
+                            <h3 class="card-title">Requests This Week</h3>
+                            <div class="bar-chart-container">
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 40%;"></div>
+                                    <span>Mon</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 20%;"></div>
+                                    <span>Tue</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 90%;"></div>
+                                    <span>Wed</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 70%;"></div>
+                                    <span>Thu</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 50%;"></div>
+                                    <span>Fri</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card status-card">
+                            <h3 class="card-title">Team Status</h3>
+                            <div class="status-list">
+                                <div class="status-item" *ngFor="let member of teamStatus">
+                                    <div class="member-info">
+                                        <span class="status-dot {{ member.statusClass }}"></span>
+                                        <span class="member-name">{{ member.name }}</span>
+                                    </div>
+                                    <span class="member-state">{{ member.status }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ai-insight-card">
+                            <div class="ai-header">
+                                <mat-icon>auto_awesome</mat-icon>
+                                <span>AI Heads-up</span>
+                            </div>
+                            <p>Sprint week (Aug 12–16) has 3 overlapping leave requests. Review conflicts before
+                                approving.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </ng-container>
+
+            <app-pending-approvals *ngIf="currentView === 'pending-approvals'"></app-pending-approvals>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,184 @@
+$bg-color: #F8FAFC;
+$sidebar-bg: #0F172A;
+$text-main: #1E293B;
+$text-muted: #64748B;
+$border-color: #E2E8F0;
+$primary: #3B82F6;
+$manager-purple: #4F46E5;
+$banner-purple-start: #312E81;
+$banner-purple-mid: #4F46E5;
+$banner-purple-end: #8B5CF6;
+
+/* --- Base Layout --- */
+.app-layout {
+    display: flex; height: 100vh; width: 100vw; background-color: $bg-color;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+}
+
+.sidebar {
+    position: relative; width: 260px; background-color: $sidebar-bg; color: white;
+    display: flex; flex-direction: column; box-sizing: border-box;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: visible; white-space: nowrap; padding: 24px 16px;
+
+    .sidebar-toggle {
+        position: absolute; top: 32px; right: -12px; width: 24px; height: 24px; background: white;
+        border: 1px solid $border-color; border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; cursor: pointer; color: $text-muted; z-index: 50;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        mat-icon { font-size: 16px; width: 16px; height: 16px; }
+        &:hover { color: $primary; border-color: $primary; }
+    }
+
+    .sidebar-brand {
+        display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding-left: 8px;
+        .logo-icon { background: $primary; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; mat-icon { font-size: 18px; width: 18px; height: 18px; } }
+        .brand-text { display: flex; flex-direction: column; .title { font-weight: 600; font-size: 16px; } .subtitle { font-size: 11px; color: #94A3B8; } }
+    }
+
+    .role-badge {
+        padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 8px; margin-bottom: 24px;
+        mat-icon { font-size: 16px; width: 16px; height: 16px; flex-shrink: 0; }
+        &.manager-badge { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
+    }
+
+    .nav-menu {
+        display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-x: hidden;
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; color: #94A3B8; text-decoration: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.2s;
+            mat-icon { font-size: 20px; width: 20px; height: 20px; flex-shrink: 0; }
+            .badge { margin-left: auto; background: #EF4444; color: white; padding: 2px 6px; border-radius: 12px; font-size: 11px; }
+            &:hover { background: rgba(255,255,255,0.05); color: white; }
+            &.active { background: rgba(255,255,255,0.1); color: white; }
+        }
+    }
+
+    .sidebar-footer {
+        display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-top: auto; overflow: hidden;
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; background: $primary; }
+        .user-info { display: flex; flex-direction: column; flex: 1; .name { font-size: 13px; font-weight: 500; } .emp-id { font-size: 11px; color: #94A3B8; } }
+        .logout-icon { color: #94A3B8; cursor: pointer; font-size: 20px; flex-shrink: 0; }
+    }
+
+    &.collapsed {
+        width: 84px; padding: 24px 12px;
+        .brand-text, .role-badge, .nav-text, .badge, .user-info, .logout-icon { display: none !important; }
+        .sidebar-brand { padding: 0; margin-bottom: 32px; justify-content: center; }
+        .nav-menu .nav-item { justify-content: center; padding: 12px 0; width: 44px; margin: 0 auto 8px auto; border-radius: 12px; &.active { background: #1E293B; color: #60A5FA; } }
+        .sidebar-footer { padding: 8px; width: 48px; margin: auto auto 16px auto; background: transparent; justify-content: center; }
+    }
+}
+
+/* --- Main Content --- */
+.main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.top-header {
+    height: 72px; background: white; border-bottom: 1px solid $border-color; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; flex-shrink: 0;
+    .page-title h1 { margin: 0; font-size: 18px; font-weight: 600; color: $text-main; }
+    .page-title .date-subtitle { margin: 0; font-size: 12px; color: $text-muted; }
+    .header-actions {
+        display: flex; align-items: center; gap: 16px;
+        .icon-btn { background: white; border: 1px solid $border-color; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: $text-muted; position: relative; cursor: pointer; .dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; background: #EF4444; border-radius: 50%; } }
+        .profile-dropdown {
+            display: flex; align-items: center; gap: 8px; background: white; border: 1px solid $border-color; padding: 4px 12px 4px 4px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer;
+            .avatar-small { background: $primary; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+        }
+    }
+}
+
+.dashboard-scroll { padding: 32px; overflow-y: auto; height: calc(100vh - 72px); box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; }
+
+/* --- Manager Custom Elements --- */
+
+.hero-banner.manager-banner {
+    background: linear-gradient(100deg, $banner-purple-start 0%, $banner-purple-mid 50%, $banner-purple-end 100%);
+    border-radius: 16px; padding: 32px; display: flex; justify-content: space-between; align-items: center; color: white;
+    .banner-text h2 { margin: 0 0 8px 0; font-size: 24px; font-weight: 600; }
+    .banner-text p { margin: 0; font-size: 15px; font-weight: 400; opacity: 0.9; strong { font-weight: 600; } }
+    .btn-review {
+        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 20px; border-radius: 24px;
+        display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s;
+        &:hover { background: rgba(255,255,255,0.2); }
+        mat-icon { font-size: 18px; width: 18px; height: 18px; }
+    }
+}
+
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.stat-card {
+    background: white; border-radius: 16px; padding: 20px; border: 1px solid $border-color; display: flex; flex-direction: column;
+    .icon-box {
+        width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+        mat-icon { font-size: 20px; width: 20px; height: 20px; }
+        &.purple { background: #F5F3FF; color: #8B5CF6; }
+        &.blue { background: #EFF6FF; color: #3B82F6; }
+        &.orange { background: #FFF7ED; color: #F97316; }
+        &.green { background: #ECFDF5; color: #10B981; }
+    }
+    .stat-label { margin: 0 0 4px 0; font-size: 13px; color: $text-muted; font-weight: 500; }
+    h3 { margin: 0 0 4px 0; font-size: 26px; font-weight: 700; color: $text-main; }
+    .stat-sub { margin: 0; font-size: 12px; color: #94A3B8; }
+}
+
+.dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: flex-start; }
+
+.card { background: white; border-radius: 16px; padding: 24px; border: 1px solid $border-color; }
+.card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.card-title { margin: 0; font-size: 15px; font-weight: 600; color: $text-main; }
+.view-all { font-size: 13px; color: $primary; text-decoration: none; font-weight: 500; }
+
+.request-list { display: flex; flex-direction: column; }
+.request-item {
+    display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #F1F5F9;
+    &:first-child { padding-top: 0; }
+    &:last-child { border-bottom: none; padding-bottom: 0; }
+    .req-avatar { background: $primary; color: white; font-weight: 600; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .req-details { flex: 1; h4 { margin: 0 0 4px 0; font-size: 14px; font-weight: 500; color: $text-main; } p { margin: 0; font-size: 12px; color: $text-muted; } }
+    .status-pill {
+        display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+        .dot { width: 6px; height: 6px; border-radius: 50%; }
+        &.pending { background: #FEF9C3; color: #A16207; .dot { background: #EAB308; } } // Yellow pill exactly like the screenshot
+    }
+}
+
+.right-col { display: flex; flex-direction: column; gap: 24px; }
+
+.chart-card {
+    .bar-chart-container {
+        display: flex; justify-content: space-between; align-items: flex-end; height: 140px; margin-top: 24px; padding: 0 10px;
+        .bar-col {
+            display: flex; flex-direction: column; align-items: center; gap: 12px; height: 100%; justify-content: flex-end; width: 100%;
+            .bar { width: 16px; background: #8B5CF6; border-radius: 4px; }
+            span { font-size: 12px; color: $text-muted; }
+        }
+    }
+}
+
+.status-card {
+    .status-list { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+    .status-item {
+        display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+        .member-info { display: flex; align-items: center; gap: 8px; .status-dot { width: 8px; height: 8px; border-radius: 50%; &.orange { background: #F97316; } &.green { background: #10B981; } } .member-name { font-weight: 500; color: $text-main; } }
+        .member-state { color: $text-muted; }
+    }
+}
+.clickable-card {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        border-color: $primary;
+        
+        .stat-sub {
+            color: $primary;
+            font-weight: 500;
+        }
+    }
+}
+
+.ai-insight-card {
+    background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 16px;
+    .ai-header { display: flex; align-items: center; gap: 8px; color: #1D4ED8; font-weight: 600; font-size: 13px; margin-bottom: 8px; mat-icon { font-size: 18px; width: 18px; height: 18px; } }
+    p { margin: 0; font-size: 13px; line-height: 1.5; color: #1E3A8A; }
+}
