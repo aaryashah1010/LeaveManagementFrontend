@@ -3,6 +3,7 @@ import { LoginComponent } from './login/login';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password';
 import { ResetPasswordComponent } from './reset-password/reset-password';
+import { LeaveHistoryComponent } from './leave-history/leave-history';
 
 // 1. Import the guard
 import { authGuard } from './auth.guard';
@@ -17,6 +18,12 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: EmployeeDashboardComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: 'leave-history',
+        component: LeaveHistoryComponent,
         canActivate: [authGuard]
     }
 ];

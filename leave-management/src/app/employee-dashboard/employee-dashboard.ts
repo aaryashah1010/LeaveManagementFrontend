@@ -93,6 +93,10 @@ export class EmployeeDashboardComponent implements OnInit, OnDestroy {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
+  goToLeaveHistory() {
+    this.router.navigate(['/leave-history']);
+  }
+
   openLeaveForm() {
     this.currentView = 'apply-leave';
   }
@@ -141,8 +145,18 @@ export class EmployeeDashboardComponent implements OnInit, OnDestroy {
           this.currentView = 'dashboard'; 
           this.fetchLeaveHistory(); 
         },
+
         error: (err) => {
-          this.snackBar.open('Failed to submit leave request.', 'Close', { duration: 3000 });
+
+          const message =
+            err.error?.message || 'Failed to submit leave request.';
+
+          this.snackBar.open(message, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
+
         }
       });
   }

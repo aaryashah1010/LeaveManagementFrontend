@@ -163,7 +163,9 @@
                     <div class="card">
                         <div class="card-header-flex">
                             <h3 class="card-title">Recent Requests</h3>
-                            <a href="#" class="view-all">View all →</a>
+                            <a class="view-all" (click)="goToLeaveHistory()">
+                                View all →
+                            </a>
                         </div>
                         <div class="request-list">
                             <div class="request-item" *ngFor="let req of recentRequests">
