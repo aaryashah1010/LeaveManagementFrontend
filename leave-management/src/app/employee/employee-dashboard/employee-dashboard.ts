@@ -90,8 +90,8 @@ export class EmployeeDashboardComponent implements OnInit, OnDestroy {
 
             this.recentRequests = data.map((dbRow: any) => {
               // EXACT ORIGINAL DATE LOGIC
-              const startDate = new Date(dbRow.startDate).toISOString().split('T')[0];
-              const endDate = new Date(dbRow.endDate).toISOString().split('T')[0];
+              const startDate = dbRow.startDate;
+              const endDate = dbRow.endDate;
 
               const status = dbRow.status || 'Pending';
               const days = parseInt(dbRow.days) || 0;

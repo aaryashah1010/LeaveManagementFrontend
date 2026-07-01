@@ -75,6 +75,10 @@ export class ManagerDashboard implements OnInit {
     // 4. Fetch the real data for the dashboard widget
     this.fetchDashboardApprovals();
     this.fetchDashboardStats();
+    this.leaveService.refreshDashboard$.subscribe(() => {
+      this.fetchDashboardApprovals();
+      this.fetchDashboardStats();
+    });
   }
 
   fetchDashboardApprovals() {
@@ -90,7 +94,7 @@ export class ManagerDashboard implements OnInit {
             return {
               initials: calculatedInitials,
               name: row.name,
-              details: `${row.leaveType} · ${row.days}d · ${new Date(row.startDate).toISOString().split('T')[0]}`,
+              details: `${row.leaveType} · ${row.days}d · ${row.startDate}`,
               status: row.status
             };
           });

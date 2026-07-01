@@ -69,7 +69,11 @@
                 <div class="hero-banner manager-banner">
                     <div class="banner-text">
                         <h2>Good morning, {{ userName }}! 👋</h2>
-                        <p>You have <strong>4 leave requests</strong> waiting for your decision today.</p>
+                        <p>
+                            You have
+                            <strong>{{ dashboardStats.pendingApprovals }} leave request{{ dashboardStats.pendingApprovals === 1 ? '' : 's' }}</strong>
+                            waiting for your decision.
+                        </p>
                     </div>
                     <button class="btn-review" (click)="currentView = 'pending-approvals'">
                         Review Now <mat-icon>arrow_forward</mat-icon>
@@ -109,7 +113,7 @@
                         <div class="stat-content">
                             <p class="stat-label">Approved This Month</p>
                             <h3>{{ dashboardStats.approvedThisMonth }}</h3>
-                            <p class="stat-sub">Requests processed</p>
+                            <p class="stat-sub">Approved requests</p>
                         </div>
                     </div>
                 </div>
