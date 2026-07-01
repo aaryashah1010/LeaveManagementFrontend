@@ -64,7 +64,7 @@
 
             <!-- Card Footer Actions -->
             <div class="comment-section" *ngIf="req.showCommentBox">
-                <textarea class="comment-input" placeholder="Add a comment (optional)..."></textarea>
+                <textarea class="comment-input" [(ngModel)]="req.managerComment" placeholder="Add a reason for rejection..."></textarea>
             </div>
 
             <div class="card-footer">

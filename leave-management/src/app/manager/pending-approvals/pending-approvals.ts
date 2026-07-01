@@ -58,10 +58,10 @@ export class PendingApprovalsComponent implements OnInit {
               name: dbRow.name || 'Unknown Employee',
               department: dbRow.department || 'General',
               leaveType: dbRow.leaveType || 'Leave',
-              startDate: dbRow.startDate ? new Date(dbRow.startDate).toISOString().split('T')[0] : 'N/A',
-              endDate: dbRow.endDate ? new Date(dbRow.endDate).toISOString().split('T')[0] : 'N/A',
+              startDate: dbRow.startDate ? dbRow.startDate : 'N/A',
+              endDate: dbRow.endDate ? dbRow.endDate : 'N/A',
               days: `${dbRow.days || 0}d`,
-              appliedDate: dbRow.appliedDate ? new Date(dbRow.appliedDate).toISOString().split('T')[0] : 'N/A',
+              appliedDate: dbRow.appliedDate ? dbRow.appliedDate : 'N/A',
               reason: dbRow.reason || 'No reason provided',
               waitingDays: '1d', 
               showCommentBox: false,
@@ -86,18 +86,23 @@ export class PendingApprovalsComponent implements OnInit {
     req.showCommentBox = !req.showCommentBox;
   }
   approveLeave(id: string) {
+
     this.leaveService.updateLeaveStatus(id, 'Approved').subscribe({
-      next: () => {
-        // 1. Instantly remove it from the UI array without reloading the page
+      next: (response) => {
+
         this.requests = this.requests.filter(req => req.id !== id);
-        
-        // 2. Force the screen to redraw
+
+        this.leaveService.notifyDashboardRefresh();
+
+
         this.cdr.detectChanges();
-        
-        console.log(`✅ Leave ${id} Approved!`);
+
+        alert("Approved Successfully");
       },
-      error: (err: any) => {
-        console.error('❌ Failed to approve leave:', err);
+
+      error: (err) => {
+        console.error("ERROR RESPONSE:", err);
+        alert("Approval Failed");
       }
     });
   }
@@ -112,9 +117,11 @@ export class PendingApprovalsComponent implements OnInit {
       next: () => {
         // Instantly remove it from the UI array
         this.requests = this.requests.filter(r => r.id !== req.id);
+
+        this.leaveService.notifyDashboardRefresh();
+
         this.cdr.detectChanges();
         
-        console.log(`🚫 Leave ${req.id} Rejected!`);
       },
       error: (err: any) => {
         console.error('❌ Failed to reject leave:', err);
